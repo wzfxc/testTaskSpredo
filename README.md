@@ -143,23 +143,22 @@ Some coins report `max_supply` and `total_supply` as floating-point numbers. We 
 ## AI Workflow Explanation
 
 ### Tools Used
-- **[Tool Name]**: [e.g., Cursor, GitHub Copilot, Claude 3.5 Sonnet]
+- **Gemini / Claude **: Used for architecture design, API analysis, and prompt-driven scaffolding.
 
 ### How They Were Used
-- **Generating boilerplate**: [e.g., FastAPI project structure, Vite + React scaffolding, Tailwind configuration]
-- **Data mapping logic**: [e.g., Mapping CoinGecko API response fields to the internal schema]
-- **UI implementation**: [e.g., Creating the table component, filter bar, responsive layout]
+- **Boilerplate & Scaffolding**: Fast-tracked the initialization of the FastAPI backend structure, Pydantic schemas, and Vite + React component hierarchy.
+- **Data Pipeline**: Generated the initial CoinGecko client logic, caching mechanism, and client-side sorting/filtering handlers.
+- **Styling Architecture**: Built a clean, modern Light Theme using Tailwind CSS v4, deliberately avoiding generic AI-generated dark mode templates.
 
 ### Where They Helped Most
-- [e.g., Rapidly scaffolding the FastAPI endpoints and Vite setup, reducing setup time from ~30 minutes to ~5 minutes]
-- [e.g., Generating the CoinGecko API integration with proper error handling and caching]
+- Saved significant setup time (scaffolded full-stack structure and typing in under 5 minutes).
+- Provided an immediate pattern for in-memory TTL caching to tackle CoinGecko's aggressive public rate limits.
 
 ### Manual Reviews & Corrections
-- [e.g., Adjusted the CoinGecko API filtering logic to handle missing/null fields (`max_supply`, `total_supply`) to prevent runtime crashes]
-- [e.g., Refined the UI away from standard AI-generated dark themes to a clean, professional light theme]
-- [e.g., Verified that the cache TTL strategy effectively prevents 429 rate-limit errors]
-- [e.g., Tested edge cases: empty search results, API failures, coins with null FDV values]
-
+- **CoinGecko Payload Constraints**: Identified that `preview_listing` and `tvl` are missing from the public `/coins/markets` endpoint. Explicitly skipped them and documented the assumptions rather than leaving silent runtime errors.
+- **Safe Supply Handling**: Manually adjusted the `max_supply == total_supply` filter to strictly require both values to be non-null (`is not None`), preventing coins with unlisted supply (`None == None`) from passing through.
+- **Dependency & Environment Fixes**: Resolved Python 3.13 compilation conflicts with `pydantic-core` and Windows PowerShell execution policy restrictions when initializing `venv`.
+- **UI & UX Quality Control**: Enforced strict adherence to a clean, fintech-style light theme with proper table formatting, loading states, and edge-case handling.
 ---
 
 ## API Documentation
